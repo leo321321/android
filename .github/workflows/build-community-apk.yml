@@ -1,0 +1,43 @@
+name: Build community APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build community debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          ref: community-variant
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build community debug APK
+        run: ./gradlew assembleCommunityDebug --stacktrace
+
+      - name: Save community APK for download
+        uses: actions/upload-artifact@v4
+        with:
+          name: cryptomator-community-debug-apk
+          path: '**/build/outputs/apk/community/debug/*.apk'
+          if-no-files-found: error
+          retention-days: 7
