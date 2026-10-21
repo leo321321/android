@@ -105,6 +105,15 @@ android {
 			dimension "version"
 		}
 
+		community {
+			dimension "version"
+
+			applicationIdSuffix ".community"
+			resValue "string", "app_id", androidApplicationId + applicationIdSuffix
+			resValue "string", "app_name", "Cryptomator Community"
+			manifestPlaceholders = [appAuthRedirectScheme: 'org.cryptomator.community.android']
+		}
+
 		fdroid {
 			dimension "version"
 		}
@@ -131,6 +140,10 @@ android {
 		}
 
 		apkstore {
+			java.srcDirs = ['src/main/java/', 'src/apiKey/java/', 'src/apkStorePlaystore/java/', 'src/nonplaystoreiap/java/']
+		}
+
+		community {
 			java.srcDirs = ['src/main/java/', 'src/apiKey/java/', 'src/apkStorePlaystore/java/', 'src/nonplaystoreiap/java/']
 		}
 
@@ -169,8 +182,8 @@ android {
 
 dependencies {
 	def dependencies = rootProject.ext.dependencies
-	def cloudFlavors = ['playstore', 'playstoreiap', 'apkstore', 'fdroid', 'accrescent']
-	def googleFlavors = ['playstore', 'playstoreiap', 'apkstore']
+	def cloudFlavors = ['playstore', 'playstoreiap', 'apkstore', 'community', 'fdroid', 'accrescent']
+	def googleFlavors = ['playstore', 'playstoreiap', 'apkstore', 'community']
 	def addToFlavors = { flavors, dep, Closure config = null ->
 		flavors.each { flavor ->
 			if (config) {
