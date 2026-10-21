@@ -112,6 +112,7 @@ android {
 			resValue "string", "app_id", androidApplicationId + applicationIdSuffix
 			resValue "string", "app_name", "Cryptomator Community"
 			manifestPlaceholders = [appAuthRedirectScheme: 'org.cryptomator.community.android']
+			matchingFallbacks = ['apkstore']
 		}
 
 		fdroid {
